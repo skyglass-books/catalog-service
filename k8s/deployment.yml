@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: catalog-service
-          image: ghcr.io/catalog-service
+          image: catalog-service
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:
