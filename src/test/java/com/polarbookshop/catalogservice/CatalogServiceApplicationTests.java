@@ -36,19 +36,19 @@ class CatalogServiceApplicationTests {
     private WebTestClient webTestClient;
 
     @Container
-    private static final KeycloakContainer keycloakContainer = new KeycloakContainer("quay.io/keycloak/keycloak:19.0")
+	private static final KeycloakContainer keycloakContainer = new KeycloakContainer("quay.io/keycloak/keycloak:19.0")
 			.withRealmImportFile("test-realm-config.json");
 
     @DynamicPropertySource
     static void dynamicProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.security.oauth2.resourceserver.jwt.issuer-uri",
-                () -> keycloakContainer.getAuthServerUrl() + "realms/PolarBookshop");
+				() -> keycloakContainer.getAuthServerUrl() + "realms/PolarBookshop");
     }
 
     @BeforeAll
     static void generateAccessTokens() {
         WebClient webClient = WebClient.builder()
-                .baseUrl(keycloakContainer.getAuthServerUrl() + "realms/PolarBookshop/protocol/openid-connect/token")
+				.baseUrl(keycloakContainer.getAuthServerUrl() + "realms/PolarBookshop/protocol/openid-connect/token")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                 .build();
 
@@ -59,7 +59,7 @@ class CatalogServiceApplicationTests {
     @Test
     void whenGetRequestWithIdThenBookReturned() {
         var bookIsbn = "1231231230";
-        var bookToCreate = Book.of(bookIsbn, "Title", "Author", 9.90, "Polarsophia");
+		var bookToCreate = Book.of(bookIsbn, "Title", "Author", 9.90, "Polarsophia");
         Book expectedBook = webTestClient
                 .post()
                 .uri("/books")
