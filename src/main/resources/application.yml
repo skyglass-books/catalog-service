@@ -1,5 +1,7 @@
 server:
   port: 9001
+  servlet:
+    context-path: /books
   shutdown: graceful
   tomcat:
     connection-timeout: 2s
