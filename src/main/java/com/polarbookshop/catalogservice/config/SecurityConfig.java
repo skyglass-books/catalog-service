@@ -19,6 +19,7 @@ public class SecurityConfig {
 		return http
 				.authorizeHttpRequests(authorize -> authorize
 						.mvcMatchers("/actuator/**").permitAll()
+						.mvcMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**").permitAll()
 						.mvcMatchers(HttpMethod.GET, "/", "/books/**").permitAll()
 						.anyRequest().hasRole("employee")
 				)
