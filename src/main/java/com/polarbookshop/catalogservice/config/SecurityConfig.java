@@ -19,8 +19,7 @@ public class SecurityConfig {
 		return http
 				.authorizeHttpRequests(authorize -> authorize
 						.mvcMatchers("/actuator/**").permitAll()
-						.mvcMatchers("/books/swagger-ui.html", "/books/swagger-ui/**", "/books/v3/api-docs", "/books/v3/api-docs/**").permitAll()
-						.mvcMatchers(HttpMethod.GET, "/books/api/**").permitAll()
+						.mvcMatchers(HttpMethod.GET, "/books/**").permitAll()
 						.anyRequest().hasRole("employee")
 				)
 				.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
