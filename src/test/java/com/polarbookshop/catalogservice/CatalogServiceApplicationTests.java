@@ -62,7 +62,7 @@ class CatalogServiceApplicationTests {
 		var bookToCreate = Book.of(bookIsbn, "Title", "Author", 9.90, "Polarsophia");
 		Book expectedBook = webTestClient
 				.post()
-				.uri("/api/books")
+				.uri("/books/api")
 				.headers(headers -> headers.setBearerAuth(isabelleTokens.accessToken()))
 				.bodyValue(bookToCreate)
 				.exchange()
@@ -72,7 +72,7 @@ class CatalogServiceApplicationTests {
 
 		webTestClient
 				.get()
-				.uri("/api/books/" + bookIsbn)
+				.uri("/books/api/" + bookIsbn)
 				.exchange()
 				.expectStatus().is2xxSuccessful()
 				.expectBody(Book.class).value(actualBook -> {
@@ -87,7 +87,7 @@ class CatalogServiceApplicationTests {
 
 		webTestClient
 				.post()
-				.uri("/api/books")
+				.uri("/books/api")
 				.headers(headers -> headers.setBearerAuth(isabelleTokens.accessToken()))
 				.bodyValue(expectedBook)
 				.exchange()
@@ -104,7 +104,7 @@ class CatalogServiceApplicationTests {
 
 		webTestClient
 				.post()
-				.uri("/api/books")
+				.uri("/books/api")
 				.bodyValue(expectedBook)
 				.exchange()
 				.expectStatus().isUnauthorized();
@@ -116,7 +116,7 @@ class CatalogServiceApplicationTests {
 
 		webTestClient
 				.post()
-				.uri("/api/books")
+				.uri("/books/api")
 				.headers(headers -> headers.setBearerAuth(bjornTokens.accessToken()))
 				.bodyValue(expectedBook)
 				.exchange()
@@ -129,7 +129,7 @@ class CatalogServiceApplicationTests {
 		var bookToCreate = Book.of(bookIsbn, "Title", "Author", 9.90, "Polarsophia");
 		Book createdBook = webTestClient
 				.post()
-				.uri("/api/books")
+				.uri("/books/api")
 				.headers(headers -> headers.setBearerAuth(isabelleTokens.accessToken()))
 				.bodyValue(bookToCreate)
 				.exchange()
@@ -142,7 +142,7 @@ class CatalogServiceApplicationTests {
 
 		webTestClient
 				.put()
-				.uri("/api/books/" + bookIsbn)
+				.uri("/books/api/" + bookIsbn)
 				.headers(headers -> headers.setBearerAuth(isabelleTokens.accessToken()))
 				.bodyValue(bookToUpdate)
 				.exchange()
@@ -159,7 +159,7 @@ class CatalogServiceApplicationTests {
 		var bookToCreate = Book.of(bookIsbn, "Title", "Author", 9.90, "Polarsophia");
 		webTestClient
 				.post()
-				.uri("/api/books")
+				.uri("/books/api")
 				.headers(headers -> headers.setBearerAuth(isabelleTokens.accessToken()))
 				.bodyValue(bookToCreate)
 				.exchange()
@@ -167,14 +167,14 @@ class CatalogServiceApplicationTests {
 
 		webTestClient
 				.delete()
-				.uri("/api/books/" + bookIsbn)
+				.uri("/books/api/" + bookIsbn)
 				.headers(headers -> headers.setBearerAuth(isabelleTokens.accessToken()))
 				.exchange()
 				.expectStatus().isNoContent();
 
 		webTestClient
 				.get()
-				.uri("/api/books/" + bookIsbn)
+				.uri("/books/api/" + bookIsbn)
 				.exchange()
 				.expectStatus().isNotFound()
 				.expectBody(String.class).value(errorMessage ->

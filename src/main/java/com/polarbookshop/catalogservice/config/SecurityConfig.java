@@ -18,9 +18,9 @@ public class SecurityConfig {
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http
 				.authorizeHttpRequests(authorize -> authorize
-						.mvcMatchers("/actuator/**").permitAll()
-						.mvcMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**").permitAll()
-						.mvcMatchers(HttpMethod.GET, "/", "/api/books/**").permitAll()
+						.mvcMatchers("/books/actuator/**").permitAll()
+						.mvcMatchers("/books/swagger-ui.html", "/books/swagger-ui/**", "/books/v3/api-docs", "/books/v3/api-docs/**").permitAll()
+						.mvcMatchers(HttpMethod.GET, "/books/", "/books/api/**").permitAll()
 						.anyRequest().hasRole("employee")
 				)
 				.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)

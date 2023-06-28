@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/books")
+@RequestMapping("/books/api")
 public class BookController {
 
 	private static final Logger log = LoggerFactory.getLogger(BookController.class);
