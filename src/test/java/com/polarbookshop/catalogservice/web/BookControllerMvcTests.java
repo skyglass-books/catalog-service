@@ -49,7 +49,7 @@ class BookControllerMvcTests {
 		var expectedBook = Book.of(isbn, "Title", "Author", 9.90, "Polarsophia");
 		given(bookService.viewBookDetails(isbn)).willReturn(expectedBook);
 		mockMvc
-				.perform(get("/books/" + isbn)
+				.perform(get("/api/books/" + isbn)
 						.with(jwt()))
 				.andExpect(status().isOk());
 	}
@@ -60,7 +60,7 @@ class BookControllerMvcTests {
 		var expectedBook = Book.of(isbn, "Title", "Author", 9.90, "Polarsophia");
 		given(bookService.viewBookDetails(isbn)).willReturn(expectedBook);
 		mockMvc
-				.perform(get("/books/" + isbn))
+				.perform(get("/api/books/" + isbn))
 				.andExpect(status().isOk());
 	}
 
@@ -69,7 +69,7 @@ class BookControllerMvcTests {
 		var isbn = "7373731394";
 		given(bookService.viewBookDetails(isbn)).willThrow(BookNotFoundException.class);
 		mockMvc
-				.perform(get("/books/" + isbn)
+				.perform(get("/api/books/" + isbn)
 						.with(jwt()))
 				.andExpect(status().isNotFound());
 	}
@@ -79,7 +79,7 @@ class BookControllerMvcTests {
 		var isbn = "7373731394";
 		given(bookService.viewBookDetails(isbn)).willThrow(BookNotFoundException.class);
 		mockMvc
-				.perform(get("/books/" + isbn))
+				.perform(get("/api/books/" + isbn))
 				.andExpect(status().isNotFound());
 	}
 
@@ -87,7 +87,7 @@ class BookControllerMvcTests {
 	void whenDeleteBookWithEmployeeRoleThenShouldReturn204() throws Exception {
 		var isbn = "7373731394";
 		mockMvc
-				.perform(delete("/books/" + isbn)
+				.perform(delete("/api/books/" + isbn)
 						.with(jwt().authorities(new SimpleGrantedAuthority(ROLE_EMPLOYEE))))
 				.andExpect(status().isNoContent());
 	}
@@ -96,7 +96,7 @@ class BookControllerMvcTests {
 	void whenDeleteBookWithCustomerRoleThenShouldReturn403() throws Exception {
 		var isbn = "7373731394";
 		mockMvc
-				.perform(delete("/books/" + isbn)
+				.perform(delete("/api/books/" + isbn)
 						.with(jwt().authorities(new SimpleGrantedAuthority(ROLE_CUSTOMER))))
 				.andExpect(status().isForbidden());
 	}
@@ -105,7 +105,7 @@ class BookControllerMvcTests {
 	void whenDeleteBookNotAuthenticatedThenShouldReturn401() throws Exception {
 		var isbn = "7373731394";
 		mockMvc
-				.perform(delete("/books/" + isbn))
+				.perform(delete("/api/books/" + isbn))
 				.andExpect(status().isUnauthorized());
 	}
 
@@ -115,7 +115,7 @@ class BookControllerMvcTests {
 		var bookToCreate = Book.of(isbn, "Title", "Author", 9.90, "Polarsophia");
 		given(bookService.addBookToCatalog(bookToCreate)).willReturn(bookToCreate);
 		mockMvc
-				.perform(post("/books")
+				.perform(post("/api/books")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(bookToCreate))
 						.with(jwt().authorities(new SimpleGrantedAuthority(ROLE_EMPLOYEE))))
@@ -128,7 +128,7 @@ class BookControllerMvcTests {
 		var bookToCreate = Book.of(isbn, "Title", "Author", 9.90, "Polarsophia");
 		given(bookService.addBookToCatalog(bookToCreate)).willReturn(bookToCreate);
 		mockMvc
-				.perform(post("/books")
+				.perform(post("/api/books")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(bookToCreate))
 						.with(jwt().authorities(new SimpleGrantedAuthority(ROLE_CUSTOMER))))
@@ -140,7 +140,7 @@ class BookControllerMvcTests {
 		var isbn = "7373731394";
 		var bookToCreate = Book.of(isbn, "Title", "Author", 9.90, "Polarsophia");
 		mockMvc
-				.perform(post("/books")
+				.perform(post("/api/books")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(bookToCreate)))
 				.andExpect(status().isUnauthorized());
@@ -152,7 +152,7 @@ class BookControllerMvcTests {
 		var bookToCreate = Book.of(isbn, "Title", "Author", 9.90, "Polarsophia");
 		given(bookService.addBookToCatalog(bookToCreate)).willReturn(bookToCreate);
 		mockMvc
-				.perform(put("/books/" + isbn)
+				.perform(put("/api/books/" + isbn)
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(bookToCreate))
 						.with(jwt().authorities(new SimpleGrantedAuthority(ROLE_EMPLOYEE))))
@@ -165,7 +165,7 @@ class BookControllerMvcTests {
 		var bookToCreate = Book.of(isbn, "Title", "Author", 9.90, "Polarsophia");
 		given(bookService.addBookToCatalog(bookToCreate)).willReturn(bookToCreate);
 		mockMvc
-				.perform(put("/books/" + isbn)
+				.perform(put("/api/books/" + isbn)
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(bookToCreate))
 						.with(jwt().authorities(new SimpleGrantedAuthority(ROLE_CUSTOMER))))
@@ -177,7 +177,7 @@ class BookControllerMvcTests {
 		var isbn = "7373731394";
 		var bookToCreate = Book.of(isbn, "Title", "Author", 9.90, "Polarsophia");
 		mockMvc
-				.perform(put("/books/" + isbn)
+				.perform(put("/api/books/" + isbn)
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(bookToCreate)))
 				.andExpect(status().isUnauthorized());
