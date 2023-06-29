@@ -42,7 +42,15 @@ spring:
         jwt:
           issuer-uri: http://localhost:8080/realms/PolarBookshop
 
+springdoc:
+  show-actuator: true
+  swagger-ui:
+    groups-order: DESC
+    disable-swagger-default-url: true
+
 logging:
+  level:
+    org.springframework.security: DEBUG
   pattern:
     level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
 
