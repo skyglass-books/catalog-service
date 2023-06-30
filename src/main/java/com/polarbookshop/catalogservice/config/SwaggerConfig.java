@@ -4,6 +4,7 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springdoc.core.GroupedOpenApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -26,12 +27,25 @@ public class SwaggerConfig {
 
     @Bean
     public GroupedOpenApi customApi() {
-        return GroupedOpenApi.builder().group("books").pathsToMatch("/books/**").build();
+        return GroupedOpenApi.builder()
+                .group("books")
+                .addOpenApiCustomiser(openApi -> {
+                    openApi.getServers().clear();
+                    openApi.addServersItem(new Server().url("https://books.greeta.net"));
+                })
+                .pathsToMatch("/books/**")
+                .build();
     }
 
     @Bean
     public GroupedOpenApi actuatorApi() {
-        return GroupedOpenApi.builder().group("actuator").pathsToMatch("/actuator/**").build();
+        return GroupedOpenApi.builder()
+                .group("actuator")
+                .addOpenApiCustomiser(openApi -> {
+                    openApi.getServers().clear();
+                    openApi.addServersItem(new Server().url("https://books.greeta.net"));
+                })
+                .pathsToMatch("/actuator/**").build();
     }
 
     public static final String BEARER_KEY_SECURITY_SCHEME = "bearer-key";
