@@ -24,14 +24,9 @@ public class SwaggerConfig {
                         new Components()
                             .addSecuritySchemes(BEARER_KEY_SECURITY_SCHEME,
                                     new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT"))
-                            .addSecuritySchemes("bearerAuth",
-                                    new SecurityScheme()
-                                            .type(SecurityScheme.Type.APIKEY)
-                                            .name("Authorization")
-                                            .in(SecurityScheme.In.HEADER)
-                ))
+                )
                 .info(new Info().title(applicationName))
-                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
+                .addSecurityItem(new SecurityRequirement().addList(BEARER_KEY_SECURITY_SCHEME));
     }
 
     @Bean
