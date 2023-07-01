@@ -3,6 +3,7 @@ package com.polarbookshop.catalogservice.config;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springdoc.core.GroupedOpenApi;
@@ -20,19 +21,27 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .components(
-                        new Components().addSecuritySchemes(BEARER_KEY_SECURITY_SCHEME,
-                                new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
-                .info(new Info().title(applicationName));
+                        new Components()
+                            .addSecuritySchemes(BEARER_KEY_SECURITY_SCHEME,
+                                    new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT"))
+                            .addSecuritySchemes("bearerAuth",
+                                    new SecurityScheme()
+                                            .type(SecurityScheme.Type.APIKEY)
+                                            .name("Authorization")
+                                            .in(SecurityScheme.In.HEADER)
+                ))
+                .info(new Info().title(applicationName))
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
     }
 
     @Bean
     public GroupedOpenApi customApi() {
         return GroupedOpenApi.builder()
                 .group("books")
-                .addOpenApiCustomiser(openApi -> {
+                /*.addOpenApiCustomiser(openApi -> {
                     openApi.getServers().clear();
                     openApi.addServersItem(new Server().url("https://books.greeta.net"));
-                })
+                })*/
                 .pathsToMatch("/books/**")
                 .build();
     }
@@ -41,10 +50,10 @@ public class SwaggerConfig {
     public GroupedOpenApi actuatorApi() {
         return GroupedOpenApi.builder()
                 .group("actuator")
-                .addOpenApiCustomiser(openApi -> {
+                /*.addOpenApiCustomiser(openApi -> {
                     openApi.getServers().clear();
                     openApi.addServersItem(new Server().url("https://books.greeta.net"));
-                })
+                })*/
                 .pathsToMatch("/actuator/**").build();
     }
 
